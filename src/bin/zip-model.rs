@@ -44,7 +44,7 @@ fn matrix(dir: &Path, out: &Path) {
         .collect();
     files.sort();
     let mut csv = String::from(
-        "scenario,variant,arith,bits,halted_on_overflow,size_hint,items_yielded,stopped_at_step_cap,overflows,get_unchecked_calls,out_of_contract,out_of_allocation_prevented,out_of_allocation_zst,next_back_calls\n",
+        "scenario,variant,arith,bits,status,model_limit_site,model_limit_requested,counts_partial,size_hint,items_yielded,overflows,get_unchecked_calls,out_of_contract,out_of_allocation_prevented,out_of_allocation_zst,next_back_calls\n",
     );
     let mut all = Vec::new();
     for f in &files {
@@ -54,15 +54,23 @@ fn matrix(dir: &Path, out: &Path) {
                 for b in BITS {
                     let o = run(&sc, v, ar, b);
                     csv.push_str(&format!(
-                        "{},{:?},{:?},{},{},{},{},{},{},{},{},{},{},{}\n",
+                        "{},{:?},{:?},{},{:?},{},{},{},{},{},{},{},{},{},{},{}\n",
                         o.scenario,
                         o.variant,
                         o.arith,
                         o.bits,
-                        o.halted_on_overflow,
+                        o.status,
+                        o.model_limit
+                            .as_ref()
+                            .map(|m| m.site.clone())
+                            .unwrap_or_default(),
+                        o.model_limit
+                            .as_ref()
+                            .map(|m| m.requested.clone())
+                            .unwrap_or_default(),
+                        o.counts_partial,
                         o.size_hint.map(|x| x.to_string()).unwrap_or_default(),
                         o.items_yielded,
-                        o.stopped_at_step_cap,
                         o.overflows.len(),
                         o.get_unchecked_calls,
                         o.out_of_contract,

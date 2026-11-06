@@ -42,14 +42,20 @@ fn hand_expectations() {
             serde_json::Value::String(s) if s == "M-2" => Some(m - 2),
             x => Some(x.as_u64().unwrap()),
         };
-        assert_eq!(o.halted_on_overflow, v[0].as_bool().unwrap(), "{k}");
+        assert_eq!(format!("{:?}", o.status), v[0].as_str().unwrap(), "{k}");
+        assert_eq!(
+            o.model_limit.as_ref().map(|m| m.site.as_str()),
+            v[5].as_str(),
+            "{k}"
+        );
+        assert_eq!(o.counts_partial, o.status == Status::ModelLimit, "{k}");
         assert_eq!(o.size_hint, sh, "{k}");
         assert_eq!(o.items_yielded, v[2].as_u64().unwrap(), "{k}");
         assert_eq!(o.out_of_allocation_prevented, v[3].as_u64().unwrap(), "{k}");
         assert_eq!(o.out_of_allocation_zst, v[4].as_u64().unwrap(), "{k}");
         n += 1;
     }
-    assert_eq!(n, 15);
+    assert_eq!(n, 21);
 }
 
 #[test]
@@ -90,7 +96,7 @@ fn checked_arith_halts_at_first_overflow() {
         "05_nth_after_side_effect",
     ] {
         let o = run(&load(name), Variant::Vulnerable, Arith::Checked, 64);
-        assert!(o.halted_on_overflow, "{name}");
+        assert_eq!(o.status, Status::HaltedOnOverflow, "{name}");
         assert_eq!(o.overflows.len(), 1, "{name}");
         assert_eq!(o.out_of_allocation_prevented, 0, "{name}");
     }
@@ -112,7 +118,7 @@ fn fixed_variant_has_no_overflow_or_oob_anywhere() {
         }
         n += 1;
     }
-    assert_eq!(n, 6);
+    assert_eq!(n, 8);
 }
 
 #[test]
@@ -161,4 +167,70 @@ fn word_arith() {
     assert_eq!(w.sub(0, 1), (65535, true));
     assert_eq!(w.add(65535, 1), (0, true));
     assert_eq!(w.sub(5, 3), (2, false));
+}
+
+fn nth_case(a_len: u64, n: u64) -> Scenario {
+    Scenario {
+        name: "nth".into(),
+        description: String::new(),
+        kind: Kind::NthAfterSideEffect { a_len, n },
+    }
+}
+
+#[test]
+fn model_limit_is_reported_not_simulated() {
+    // Fixed: next() -> index 1, len 1; nth(n): rest = n, so n + 1 next() calls.
+    let o = run(&nth_case(3, 70000), Variant::Fixed, Arith::Wrapping, 64);
+    assert_eq!(o.status, Status::ModelLimit);
+    assert!(o.counts_partial);
+    assert_eq!(o.size_hint, None, "observation point not reached");
+    let m = o.model_limit.unwrap();
+    assert_eq!((m.requested.as_str(), m.cap), ("70001", LOOP_CAP));
+    // No next() call of the over-cap loop was simulated.
+    assert_eq!(o.get_unchecked_calls, 1, "only the first next()");
+    let o = run(
+        &load("08_next_back_beyond_loop_cap"),
+        Variant::Vulnerable,
+        Arith::Wrapping,
+        32,
+    );
+    assert_eq!(o.model_limit.unwrap().requested, "69999");
+    assert_eq!(o.next_back_calls, 0);
+}
+
+#[test]
+fn loop_cap_boundary_is_exact() {
+    // rest + 1 = 65536 = LOOP_CAP: simulated in full.
+    let o = run(&nth_case(3, 65535), Variant::Fixed, Arith::Checked, 32);
+    assert_eq!(o.status, Status::Completed);
+    assert_eq!(o.size_hint, Some(0));
+    // 65537 > LOOP_CAP: model limit.
+    let o = run(&nth_case(3, 65536), Variant::Fixed, Arith::Checked, 32);
+    assert_eq!(o.status, Status::ModelLimit);
+    assert_eq!(o.model_limit.unwrap().requested, "65537");
+}
+
+#[test]
+fn values_wider_than_the_word_are_not_representable() {
+    for name in ["07_nth_beyond_loop_cap", "08_next_back_beyond_loop_cap"] {
+        let o = run(&load(name), Variant::Vulnerable, Arith::Wrapping, 16);
+        assert_eq!(o.status, Status::NotRepresentable, "{name}");
+        assert_eq!((o.get_unchecked_calls, o.size_hint), (0, None));
+    }
+    // With W=16 every representable nth(n) fits under the cap.
+    let o = run(&nth_case(3, 65535), Variant::Fixed, Arith::Wrapping, 16);
+    assert_eq!(o.status, Status::Completed);
+}
+
+#[test]
+fn step_cap_in_issue_82282_is_a_model_limit() {
+    let o = run(
+        &load("01_issue_82282"),
+        Variant::Vulnerable,
+        Arith::Wrapping,
+        64,
+    );
+    assert_eq!(o.status, Status::ModelLimit);
+    assert!(o.counts_partial);
+    assert_eq!(o.size_hint, Some(u64::MAX), "observed before the loop");
 }

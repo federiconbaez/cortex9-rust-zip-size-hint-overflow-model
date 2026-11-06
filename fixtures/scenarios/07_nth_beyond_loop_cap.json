@@ -1,0 +1,9 @@
+{
+  "name": "07_nth_beyond_loop_cap",
+  "description": "map(a[3]).zip(empty): next() then nth(70000). The loop count exceeds LOOP_CAP (65536): the model stops with ModelLimit instead of simulating a truncated loop. Not representable with 16-bit words.",
+  "kind": {
+    "kind": "nth_after_side_effect",
+    "a_len": 3,
+    "n": 70000
+  }
+}

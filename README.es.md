@@ -31,9 +31,17 @@ diff -r results /tmp/out
 
 ## Resultados
 
-- 01 vulnerable + wrapping: `size_hint` = 2^W − 1; 16 de 22 llamadas caen
-  fuera de la asignación (10 en el ZST, 6 en el arreglo `i32`), contadas,
-  ninguna realizada.
+- 01 vulnerable + wrapping: `size_hint` = 2^W − 1 (observado antes del
+  bucle). El `for` upstream se simula solo 5 pasos: estado `ModelLimit` y
+  conteos **parciales**; en esos 5 pasos, 16 de 22 llamadas caen fuera de la
+  asignación (10 en el ZST, 6 en el arreglo `i32`), contadas, ninguna
+  realizada.
+- Estados: `Completed`, `HaltedOnOverflow`, `ModelLimit` (un bucle supera
+  `LOOP_CAP` = 65536 o `max_steps`; el modelo se detiene antes del bucle, no
+  simula un bucle truncado y el resultado posterior es indeterminado) y
+  `NotRepresentable` (parámetro que no cabe en la palabra).
+- 07/08 (W = 32/64): bucles de 70000/70001/69999 iteraciones → `ModelLimit`
+  en ambas variantes; con W = 16 son `NotRepresentable`.
 - 01 vulnerable + checked: se detiene en el primer desborde.
 - 01 corregido: `size_hint` 0 y ningún ítem, como el test upstream.
 - 02 (benigno) idéntico en ambas variantes; la variante corregida no tiene

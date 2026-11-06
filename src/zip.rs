@@ -33,15 +33,30 @@ pub enum Event {
     NextBack {
         iter: String,
     },
+    /// A loop would run `requested` times, more than `cap`. The model stops
+    /// here instead of simulating a truncated loop; the result is
+    /// indeterminate.
+    ModelLimit {
+        site: String,
+        requested: String,
+        cap: u64,
+    },
 }
 
-/// Upper bound on model loops whose count comes from a (possibly wrapped)
-/// length; real code would loop that many times.
+/// Largest iteration count the model will simulate for one loop whose count
+/// comes from a (possibly wrapped) length. Above it the run stops with
+/// `Halt::ModelLimit`; it never runs a shortened loop and reports it as the
+/// full result.
 pub const LOOP_CAP: u64 = 1 << 16;
 
-/// Raised when `Arith::Checked` meets an overflow (a panic in real code).
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Halt;
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Halt {
+    /// `Arith::Checked` met an overflow (a panic in real code).
+    Overflow,
+    /// A loop exceeded `LOOP_CAP`; what real code would do next is not
+    /// simulated.
+    ModelLimit,
+}
 
 pub struct Ctx {
     pub word: Word,
@@ -71,7 +86,7 @@ impl Ctx {
                 result: r,
             });
             if self.arith == Arith::Checked {
-                return Err(Halt);
+                return Err(Halt::Overflow);
             }
         }
         Ok(r)
@@ -88,10 +103,24 @@ impl Ctx {
                 result: r,
             });
             if self.arith == Arith::Checked {
-                return Err(Halt);
+                return Err(Halt::Overflow);
             }
         }
         Ok(r)
+    }
+
+    /// Check a loop count before running the loop. `n` is the exact number
+    /// of iterations real code would perform (u128 so `rest + 1` cannot wrap).
+    pub fn bounded(&mut self, site: &str, n: u128) -> Result<u64, Halt> {
+        if n > LOOP_CAP as u128 {
+            self.events.push(Event::ModelLimit {
+                site: site.into(),
+                requested: n.to_string(),
+                cap: LOOP_CAP,
+            });
+            return Err(Halt::ModelLimit);
+        }
+        Ok(n as u64)
     }
 }
 
@@ -250,6 +279,10 @@ impl Zip {
         let remaining = cx.sub("Zip::nth: self.len - self.index", self.len, self.index)?;
         let delta = cmp::min(n, remaining);
         let end = cx.add("Zip::nth: self.index + delta", self.index, delta)?;
+        cx.bounded(
+            "Zip::nth: side-effect loop (delta iterations)",
+            end.saturating_sub(self.index) as u128,
+        )?;
         while self.index < end {
             let i = self.index;
             self.index = cx.add("Zip::nth: self.index += 1", self.index, 1)?;
@@ -263,7 +296,11 @@ impl Zip {
         // super_nth(n - delta): default nth = advance_by(n - delta) then next()
         let rest = cx.sub("Zip::nth: n - delta", n, delta)?;
         let mut last = false;
-        for _ in 0..=rest.min(LOOP_CAP) {
+        let calls = cx.bounded(
+            "Zip::nth: super_nth (rest + 1 next calls)",
+            rest as u128 + 1,
+        )?;
+        for _ in 0..calls {
             last = self.next(cx)?;
         }
         Ok(last)
@@ -286,14 +323,16 @@ impl Zip {
                         )?,
                         Variant::Fixed => cx.sub("Zip::next_back: sz_a - len", sz_a, self.len)?,
                     };
-                    for _ in 0..n.min(LOOP_CAP) {
+                    let n = cx.bounded("Zip::next_back: a.next_back() loop", n as u128)?;
+                    for _ in 0..n {
                         self.a.next_back(cx)?;
                     }
                 }
                 let sz_b = self.b.size(cx)?;
                 if b_side && sz_b > self.len {
                     let n = cx.sub("Zip::next_back: sz_b - len", sz_b, self.len)?;
-                    for _ in 0..n.min(LOOP_CAP) {
+                    let n = cx.bounded("Zip::next_back: b.next_back() loop", n as u128)?;
+                    for _ in 0..n {
                         self.b.next_back(cx)?;
                     }
                 }

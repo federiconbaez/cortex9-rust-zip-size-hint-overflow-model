@@ -1,0 +1,8 @@
+{
+  "name": "08_next_back_beyond_loop_cap",
+  "description": "map(a[70000]).zip(empty): next() then next_back(). next_back would call a.next_back() 69999 times, above LOOP_CAP: ModelLimit in both variants. Not representable with 16-bit words.",
+  "kind": {
+    "kind": "next_back_after_side_effect",
+    "a_len": 70000
+  }
+}

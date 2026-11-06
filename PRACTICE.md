@@ -44,6 +44,11 @@ asignación (10 en el ZST) de los 5 pasos.
 en la variante vulnerable? En 04, ¿por qué ambas variantes hacen 2
 `next_back` sobre `a`? Relaciónalo con `cmp::max(len, index)`.
 
+**Nivel 4b — límite del modelo.** En 07 y 08, ¿qué bucle supera
+`LOOP_CAP` en cada variante y con cuántas iteraciones? ¿Por qué el modelo
+devuelve `ModelLimit` con `size_hint` vacío en vez de un número? Prueba
+`nth(65535)` y `nth(65536)` con W = 32 (test `loop_cap_boundary_is_exact`).
+
 **Nivel 5 — invariante.** Escribe un test que verifique `index <= len`
 tras cualquier secuencia de `next`/`nth`/`next_back` en la variante
 corregida (amplía `invariant_index_le_len_after_fix`).

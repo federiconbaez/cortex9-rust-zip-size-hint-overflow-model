@@ -1,73 +1,97 @@
-scenario,variant,arith,bits,halted_on_overflow,size_hint,items_yielded,stopped_at_step_cap,overflows,get_unchecked_calls,out_of_contract,out_of_allocation_prevented,out_of_allocation_zst,next_back_calls
-01_issue_82282,Vulnerable,Wrapping,16,false,65535,5,true,2,22,16,16,10,0
-01_issue_82282,Vulnerable,Wrapping,32,false,4294967295,5,true,2,22,16,16,10,0
-01_issue_82282,Vulnerable,Wrapping,64,false,18446744073709551615,5,true,2,22,16,16,10,0
-01_issue_82282,Vulnerable,Checked,16,true,,0,false,1,2,0,0,0,0
-01_issue_82282,Vulnerable,Checked,32,true,,0,false,1,2,0,0,0,0
-01_issue_82282,Vulnerable,Checked,64,true,,0,false,1,2,0,0,0,0
-01_issue_82282,Fixed,Wrapping,16,false,0,0,false,0,2,0,0,0,0
-01_issue_82282,Fixed,Wrapping,32,false,0,0,false,0,2,0,0,0,0
-01_issue_82282,Fixed,Wrapping,64,false,0,0,false,0,2,0,0,0,0
-01_issue_82282,Fixed,Checked,16,false,0,0,false,0,2,0,0,0,0
-01_issue_82282,Fixed,Checked,32,false,0,0,false,0,2,0,0,0,0
-01_issue_82282,Fixed,Checked,64,false,0,0,false,0,2,0,0,0,0
-02_equal_benign,Vulnerable,Wrapping,16,false,0,4,false,0,8,0,0,0,0
-02_equal_benign,Vulnerable,Wrapping,32,false,0,4,false,0,8,0,0,0,0
-02_equal_benign,Vulnerable,Wrapping,64,false,0,4,false,0,8,0,0,0,0
-02_equal_benign,Vulnerable,Checked,16,false,0,4,false,0,8,0,0,0,0
-02_equal_benign,Vulnerable,Checked,32,false,0,4,false,0,8,0,0,0,0
-02_equal_benign,Vulnerable,Checked,64,false,0,4,false,0,8,0,0,0,0
-02_equal_benign,Fixed,Wrapping,16,false,0,4,false,0,8,0,0,0,0
-02_equal_benign,Fixed,Wrapping,32,false,0,4,false,0,8,0,0,0,0
-02_equal_benign,Fixed,Wrapping,64,false,0,4,false,0,8,0,0,0,0
-02_equal_benign,Fixed,Checked,16,false,0,4,false,0,8,0,0,0,0
-02_equal_benign,Fixed,Checked,32,false,0,4,false,0,8,0,0,0,0
-02_equal_benign,Fixed,Checked,64,false,0,4,false,0,8,0,0,0,0
-03_consumed_reuse,Vulnerable,Wrapping,16,false,65535,2,false,1,5,0,0,0,0
-03_consumed_reuse,Vulnerable,Wrapping,32,false,4294967295,2,false,1,5,0,0,0,0
-03_consumed_reuse,Vulnerable,Wrapping,64,false,18446744073709551615,2,false,1,5,0,0,0,0
-03_consumed_reuse,Vulnerable,Checked,16,true,,2,false,1,5,0,0,0,0
-03_consumed_reuse,Vulnerable,Checked,32,true,,2,false,1,5,0,0,0,0
-03_consumed_reuse,Vulnerable,Checked,64,true,,2,false,1,5,0,0,0,0
-03_consumed_reuse,Fixed,Wrapping,16,false,0,2,false,0,5,0,0,0,0
-03_consumed_reuse,Fixed,Wrapping,32,false,0,2,false,0,5,0,0,0,0
-03_consumed_reuse,Fixed,Wrapping,64,false,0,2,false,0,5,0,0,0,0
-03_consumed_reuse,Fixed,Checked,16,false,0,2,false,0,5,0,0,0,0
-03_consumed_reuse,Fixed,Checked,32,false,0,2,false,0,5,0,0,0,0
-03_consumed_reuse,Fixed,Checked,64,false,0,2,false,0,5,0,0,0,0
-04_next_back_after_side_effect,Vulnerable,Wrapping,16,false,65535,0,false,1,1,0,0,0,2
-04_next_back_after_side_effect,Vulnerable,Wrapping,32,false,4294967295,0,false,1,1,0,0,0,2
-04_next_back_after_side_effect,Vulnerable,Wrapping,64,false,18446744073709551615,0,false,1,1,0,0,0,2
-04_next_back_after_side_effect,Vulnerable,Checked,16,true,,0,false,1,1,0,0,0,2
-04_next_back_after_side_effect,Vulnerable,Checked,32,true,,0,false,1,1,0,0,0,2
-04_next_back_after_side_effect,Vulnerable,Checked,64,true,,0,false,1,1,0,0,0,2
-04_next_back_after_side_effect,Fixed,Wrapping,16,false,0,0,false,0,1,0,0,0,2
-04_next_back_after_side_effect,Fixed,Wrapping,32,false,0,0,false,0,1,0,0,0,2
-04_next_back_after_side_effect,Fixed,Wrapping,64,false,0,0,false,0,1,0,0,0,2
-04_next_back_after_side_effect,Fixed,Checked,16,false,0,0,false,0,1,0,0,0,2
-04_next_back_after_side_effect,Fixed,Checked,32,false,0,0,false,0,1,0,0,0,2
-04_next_back_after_side_effect,Fixed,Checked,64,false,0,0,false,0,1,0,0,0,2
-05_nth_after_side_effect,Vulnerable,Wrapping,16,false,65533,0,false,2,3,0,0,0,0
-05_nth_after_side_effect,Vulnerable,Wrapping,32,false,4294967293,0,false,2,3,0,0,0,0
-05_nth_after_side_effect,Vulnerable,Wrapping,64,false,18446744073709551613,0,false,2,3,0,0,0,0
-05_nth_after_side_effect,Vulnerable,Checked,16,true,,0,false,1,1,0,0,0,0
-05_nth_after_side_effect,Vulnerable,Checked,32,true,,0,false,1,1,0,0,0,0
-05_nth_after_side_effect,Vulnerable,Checked,64,true,,0,false,1,1,0,0,0,0
-05_nth_after_side_effect,Fixed,Wrapping,16,false,0,0,false,0,3,0,0,0,0
-05_nth_after_side_effect,Fixed,Wrapping,32,false,0,0,false,0,3,0,0,0,0
-05_nth_after_side_effect,Fixed,Wrapping,64,false,0,0,false,0,3,0,0,0,0
-05_nth_after_side_effect,Fixed,Checked,16,false,0,0,false,0,3,0,0,0,0
-05_nth_after_side_effect,Fixed,Checked,32,false,0,0,false,0,3,0,0,0,0
-05_nth_after_side_effect,Fixed,Checked,64,false,0,0,false,0,3,0,0,0,0
-06_consumed_reuse_twice,Vulnerable,Wrapping,16,false,65533,2,false,1,7,0,0,0,0
-06_consumed_reuse_twice,Vulnerable,Wrapping,32,false,4294967293,2,false,1,7,0,0,0,0
-06_consumed_reuse_twice,Vulnerable,Wrapping,64,false,18446744073709551613,2,false,1,7,0,0,0,0
-06_consumed_reuse_twice,Vulnerable,Checked,16,true,,2,false,1,7,0,0,0,0
-06_consumed_reuse_twice,Vulnerable,Checked,32,true,,2,false,1,7,0,0,0,0
-06_consumed_reuse_twice,Vulnerable,Checked,64,true,,2,false,1,7,0,0,0,0
-06_consumed_reuse_twice,Fixed,Wrapping,16,false,0,2,false,0,7,0,0,0,0
-06_consumed_reuse_twice,Fixed,Wrapping,32,false,0,2,false,0,7,0,0,0,0
-06_consumed_reuse_twice,Fixed,Wrapping,64,false,0,2,false,0,7,0,0,0,0
-06_consumed_reuse_twice,Fixed,Checked,16,false,0,2,false,0,7,0,0,0,0
-06_consumed_reuse_twice,Fixed,Checked,32,false,0,2,false,0,7,0,0,0,0
-06_consumed_reuse_twice,Fixed,Checked,64,false,0,2,false,0,7,0,0,0,0
+scenario,variant,arith,bits,status,model_limit_site,model_limit_requested,counts_partial,size_hint,items_yielded,overflows,get_unchecked_calls,out_of_contract,out_of_allocation_prevented,out_of_allocation_zst,next_back_calls
+01_issue_82282,Vulnerable,Wrapping,16,ModelLimit,scenario: for _ in zip (max_steps),at least 6,true,65535,5,2,22,16,16,10,0
+01_issue_82282,Vulnerable,Wrapping,32,ModelLimit,scenario: for _ in zip (max_steps),at least 6,true,4294967295,5,2,22,16,16,10,0
+01_issue_82282,Vulnerable,Wrapping,64,ModelLimit,scenario: for _ in zip (max_steps),at least 6,true,18446744073709551615,5,2,22,16,16,10,0
+01_issue_82282,Vulnerable,Checked,16,HaltedOnOverflow,,,false,,0,1,2,0,0,0,0
+01_issue_82282,Vulnerable,Checked,32,HaltedOnOverflow,,,false,,0,1,2,0,0,0,0
+01_issue_82282,Vulnerable,Checked,64,HaltedOnOverflow,,,false,,0,1,2,0,0,0,0
+01_issue_82282,Fixed,Wrapping,16,Completed,,,false,0,0,0,2,0,0,0,0
+01_issue_82282,Fixed,Wrapping,32,Completed,,,false,0,0,0,2,0,0,0,0
+01_issue_82282,Fixed,Wrapping,64,Completed,,,false,0,0,0,2,0,0,0,0
+01_issue_82282,Fixed,Checked,16,Completed,,,false,0,0,0,2,0,0,0,0
+01_issue_82282,Fixed,Checked,32,Completed,,,false,0,0,0,2,0,0,0,0
+01_issue_82282,Fixed,Checked,64,Completed,,,false,0,0,0,2,0,0,0,0
+02_equal_benign,Vulnerable,Wrapping,16,Completed,,,false,0,4,0,8,0,0,0,0
+02_equal_benign,Vulnerable,Wrapping,32,Completed,,,false,0,4,0,8,0,0,0,0
+02_equal_benign,Vulnerable,Wrapping,64,Completed,,,false,0,4,0,8,0,0,0,0
+02_equal_benign,Vulnerable,Checked,16,Completed,,,false,0,4,0,8,0,0,0,0
+02_equal_benign,Vulnerable,Checked,32,Completed,,,false,0,4,0,8,0,0,0,0
+02_equal_benign,Vulnerable,Checked,64,Completed,,,false,0,4,0,8,0,0,0,0
+02_equal_benign,Fixed,Wrapping,16,Completed,,,false,0,4,0,8,0,0,0,0
+02_equal_benign,Fixed,Wrapping,32,Completed,,,false,0,4,0,8,0,0,0,0
+02_equal_benign,Fixed,Wrapping,64,Completed,,,false,0,4,0,8,0,0,0,0
+02_equal_benign,Fixed,Checked,16,Completed,,,false,0,4,0,8,0,0,0,0
+02_equal_benign,Fixed,Checked,32,Completed,,,false,0,4,0,8,0,0,0,0
+02_equal_benign,Fixed,Checked,64,Completed,,,false,0,4,0,8,0,0,0,0
+03_consumed_reuse,Vulnerable,Wrapping,16,Completed,,,false,65535,2,1,5,0,0,0,0
+03_consumed_reuse,Vulnerable,Wrapping,32,Completed,,,false,4294967295,2,1,5,0,0,0,0
+03_consumed_reuse,Vulnerable,Wrapping,64,Completed,,,false,18446744073709551615,2,1,5,0,0,0,0
+03_consumed_reuse,Vulnerable,Checked,16,HaltedOnOverflow,,,false,,2,1,5,0,0,0,0
+03_consumed_reuse,Vulnerable,Checked,32,HaltedOnOverflow,,,false,,2,1,5,0,0,0,0
+03_consumed_reuse,Vulnerable,Checked,64,HaltedOnOverflow,,,false,,2,1,5,0,0,0,0
+03_consumed_reuse,Fixed,Wrapping,16,Completed,,,false,0,2,0,5,0,0,0,0
+03_consumed_reuse,Fixed,Wrapping,32,Completed,,,false,0,2,0,5,0,0,0,0
+03_consumed_reuse,Fixed,Wrapping,64,Completed,,,false,0,2,0,5,0,0,0,0
+03_consumed_reuse,Fixed,Checked,16,Completed,,,false,0,2,0,5,0,0,0,0
+03_consumed_reuse,Fixed,Checked,32,Completed,,,false,0,2,0,5,0,0,0,0
+03_consumed_reuse,Fixed,Checked,64,Completed,,,false,0,2,0,5,0,0,0,0
+04_next_back_after_side_effect,Vulnerable,Wrapping,16,Completed,,,false,65535,0,1,1,0,0,0,2
+04_next_back_after_side_effect,Vulnerable,Wrapping,32,Completed,,,false,4294967295,0,1,1,0,0,0,2
+04_next_back_after_side_effect,Vulnerable,Wrapping,64,Completed,,,false,18446744073709551615,0,1,1,0,0,0,2
+04_next_back_after_side_effect,Vulnerable,Checked,16,HaltedOnOverflow,,,false,,0,1,1,0,0,0,2
+04_next_back_after_side_effect,Vulnerable,Checked,32,HaltedOnOverflow,,,false,,0,1,1,0,0,0,2
+04_next_back_after_side_effect,Vulnerable,Checked,64,HaltedOnOverflow,,,false,,0,1,1,0,0,0,2
+04_next_back_after_side_effect,Fixed,Wrapping,16,Completed,,,false,0,0,0,1,0,0,0,2
+04_next_back_after_side_effect,Fixed,Wrapping,32,Completed,,,false,0,0,0,1,0,0,0,2
+04_next_back_after_side_effect,Fixed,Wrapping,64,Completed,,,false,0,0,0,1,0,0,0,2
+04_next_back_after_side_effect,Fixed,Checked,16,Completed,,,false,0,0,0,1,0,0,0,2
+04_next_back_after_side_effect,Fixed,Checked,32,Completed,,,false,0,0,0,1,0,0,0,2
+04_next_back_after_side_effect,Fixed,Checked,64,Completed,,,false,0,0,0,1,0,0,0,2
+05_nth_after_side_effect,Vulnerable,Wrapping,16,Completed,,,false,65533,0,2,3,0,0,0,0
+05_nth_after_side_effect,Vulnerable,Wrapping,32,Completed,,,false,4294967293,0,2,3,0,0,0,0
+05_nth_after_side_effect,Vulnerable,Wrapping,64,Completed,,,false,18446744073709551613,0,2,3,0,0,0,0
+05_nth_after_side_effect,Vulnerable,Checked,16,HaltedOnOverflow,,,false,,0,1,1,0,0,0,0
+05_nth_after_side_effect,Vulnerable,Checked,32,HaltedOnOverflow,,,false,,0,1,1,0,0,0,0
+05_nth_after_side_effect,Vulnerable,Checked,64,HaltedOnOverflow,,,false,,0,1,1,0,0,0,0
+05_nth_after_side_effect,Fixed,Wrapping,16,Completed,,,false,0,0,0,3,0,0,0,0
+05_nth_after_side_effect,Fixed,Wrapping,32,Completed,,,false,0,0,0,3,0,0,0,0
+05_nth_after_side_effect,Fixed,Wrapping,64,Completed,,,false,0,0,0,3,0,0,0,0
+05_nth_after_side_effect,Fixed,Checked,16,Completed,,,false,0,0,0,3,0,0,0,0
+05_nth_after_side_effect,Fixed,Checked,32,Completed,,,false,0,0,0,3,0,0,0,0
+05_nth_after_side_effect,Fixed,Checked,64,Completed,,,false,0,0,0,3,0,0,0,0
+06_consumed_reuse_twice,Vulnerable,Wrapping,16,Completed,,,false,65533,2,1,7,0,0,0,0
+06_consumed_reuse_twice,Vulnerable,Wrapping,32,Completed,,,false,4294967293,2,1,7,0,0,0,0
+06_consumed_reuse_twice,Vulnerable,Wrapping,64,Completed,,,false,18446744073709551613,2,1,7,0,0,0,0
+06_consumed_reuse_twice,Vulnerable,Checked,16,HaltedOnOverflow,,,false,,2,1,7,0,0,0,0
+06_consumed_reuse_twice,Vulnerable,Checked,32,HaltedOnOverflow,,,false,,2,1,7,0,0,0,0
+06_consumed_reuse_twice,Vulnerable,Checked,64,HaltedOnOverflow,,,false,,2,1,7,0,0,0,0
+06_consumed_reuse_twice,Fixed,Wrapping,16,Completed,,,false,0,2,0,7,0,0,0,0
+06_consumed_reuse_twice,Fixed,Wrapping,32,Completed,,,false,0,2,0,7,0,0,0,0
+06_consumed_reuse_twice,Fixed,Wrapping,64,Completed,,,false,0,2,0,7,0,0,0,0
+06_consumed_reuse_twice,Fixed,Checked,16,Completed,,,false,0,2,0,7,0,0,0,0
+06_consumed_reuse_twice,Fixed,Checked,32,Completed,,,false,0,2,0,7,0,0,0,0
+06_consumed_reuse_twice,Fixed,Checked,64,Completed,,,false,0,2,0,7,0,0,0,0
+07_nth_beyond_loop_cap,Vulnerable,Wrapping,16,NotRepresentable,,,false,,0,0,0,0,0,0,0
+07_nth_beyond_loop_cap,Vulnerable,Wrapping,32,ModelLimit,Zip::nth: side-effect loop (delta iterations),70000,true,,0,1,1,0,0,0,0
+07_nth_beyond_loop_cap,Vulnerable,Wrapping,64,ModelLimit,Zip::nth: side-effect loop (delta iterations),70000,true,,0,1,1,0,0,0,0
+07_nth_beyond_loop_cap,Vulnerable,Checked,16,NotRepresentable,,,false,,0,0,0,0,0,0,0
+07_nth_beyond_loop_cap,Vulnerable,Checked,32,HaltedOnOverflow,,,false,,0,1,1,0,0,0,0
+07_nth_beyond_loop_cap,Vulnerable,Checked,64,HaltedOnOverflow,,,false,,0,1,1,0,0,0,0
+07_nth_beyond_loop_cap,Fixed,Wrapping,16,NotRepresentable,,,false,,0,0,0,0,0,0,0
+07_nth_beyond_loop_cap,Fixed,Wrapping,32,ModelLimit,Zip::nth: super_nth (rest + 1 next calls),70001,true,,0,0,1,0,0,0,0
+07_nth_beyond_loop_cap,Fixed,Wrapping,64,ModelLimit,Zip::nth: super_nth (rest + 1 next calls),70001,true,,0,0,1,0,0,0,0
+07_nth_beyond_loop_cap,Fixed,Checked,16,NotRepresentable,,,false,,0,0,0,0,0,0,0
+07_nth_beyond_loop_cap,Fixed,Checked,32,ModelLimit,Zip::nth: super_nth (rest + 1 next calls),70001,true,,0,0,1,0,0,0,0
+07_nth_beyond_loop_cap,Fixed,Checked,64,ModelLimit,Zip::nth: super_nth (rest + 1 next calls),70001,true,,0,0,1,0,0,0,0
+08_next_back_beyond_loop_cap,Vulnerable,Wrapping,16,NotRepresentable,,,false,,0,0,0,0,0,0,0
+08_next_back_beyond_loop_cap,Vulnerable,Wrapping,32,ModelLimit,Zip::next_back: a.next_back() loop,69999,true,,0,0,1,0,0,0,0
+08_next_back_beyond_loop_cap,Vulnerable,Wrapping,64,ModelLimit,Zip::next_back: a.next_back() loop,69999,true,,0,0,1,0,0,0,0
+08_next_back_beyond_loop_cap,Vulnerable,Checked,16,NotRepresentable,,,false,,0,0,0,0,0,0,0
+08_next_back_beyond_loop_cap,Vulnerable,Checked,32,ModelLimit,Zip::next_back: a.next_back() loop,69999,true,,0,0,1,0,0,0,0
+08_next_back_beyond_loop_cap,Vulnerable,Checked,64,ModelLimit,Zip::next_back: a.next_back() loop,69999,true,,0,0,1,0,0,0,0
+08_next_back_beyond_loop_cap,Fixed,Wrapping,16,NotRepresentable,,,false,,0,0,0,0,0,0,0
+08_next_back_beyond_loop_cap,Fixed,Wrapping,32,ModelLimit,Zip::next_back: a.next_back() loop,69999,true,,0,0,1,0,0,0,0
+08_next_back_beyond_loop_cap,Fixed,Wrapping,64,ModelLimit,Zip::next_back: a.next_back() loop,69999,true,,0,0,1,0,0,0,0
+08_next_back_beyond_loop_cap,Fixed,Checked,16,NotRepresentable,,,false,,0,0,0,0,0,0,0
+08_next_back_beyond_loop_cap,Fixed,Checked,32,ModelLimit,Zip::next_back: a.next_back() loop,69999,true,,0,0,1,0,0,0,0
+08_next_back_beyond_loop_cap,Fixed,Checked,64,ModelLimit,Zip::next_back: a.next_back() loop,69999,true,,0,0,1,0,0,0,0
