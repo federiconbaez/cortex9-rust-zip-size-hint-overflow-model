@@ -24,5 +24,6 @@
   build had overflow checks is not claimed here.
 - Affected range "before 1.52.0" is from the GHSA record; no toolchain was
   run to confirm it.
-- CI configuration is included; at the time of the local commit it had only
-  been run locally, not on a hosted runner.
+- CI is defined in `.github/workflows/ci.yml` (fmt, clippy, tests, results regeneration). Results were also
+  reproduced locally with rustc 1.99.1; the status of hosted runs is whatever the
+  repository's Actions page shows.
