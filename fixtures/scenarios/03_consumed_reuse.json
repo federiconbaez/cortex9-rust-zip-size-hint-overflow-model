@@ -1,0 +1,10 @@
+{
+  "name": "03_consumed_reuse",
+  "description": "map(a[3]).zip(b[2]) drained, then next() once more, then size_hint.",
+  "kind": {
+    "kind": "consumed_reuse",
+    "a_len": 3,
+    "b_len": 2,
+    "extra": 1
+  }
+}

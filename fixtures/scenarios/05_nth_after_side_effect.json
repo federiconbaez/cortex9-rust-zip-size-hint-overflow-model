@@ -1,0 +1,9 @@
+{
+  "name": "05_nth_after_side_effect",
+  "description": "map(a[3]).zip(empty): next() then nth(2).",
+  "kind": {
+    "kind": "nth_after_side_effect",
+    "a_len": 3,
+    "n": 2
+  }
+}

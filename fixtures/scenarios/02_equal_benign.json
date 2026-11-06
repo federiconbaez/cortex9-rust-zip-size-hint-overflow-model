@@ -1,0 +1,8 @@
+{
+  "name": "02_equal_benign",
+  "description": "Benign: zip of two side-effect-free slices of length 4, drained.",
+  "kind": {
+    "kind": "equal",
+    "len": 4
+  }
+}

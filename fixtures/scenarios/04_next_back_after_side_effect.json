@@ -1,0 +1,8 @@
+{
+  "name": "04_next_back_after_side_effect",
+  "description": "map(a[3]).zip(empty): next() then next_back().",
+  "kind": {
+    "kind": "next_back_after_side_effect",
+    "a_len": 3
+  }
+}

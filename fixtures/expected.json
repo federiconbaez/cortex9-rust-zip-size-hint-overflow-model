@@ -1,0 +1,18 @@
+{
+  "_note": "Hand-derived from zip.rs at 0148b97 and PR #82289. Key scenario|variant|arith (W=64); value [halted_on_overflow, size_hint or null, items_yielded, out_of_allocation_prevented, out_of_allocation_zst]. M = 2^64 - 1.",
+  "01_issue_82282|Vulnerable|Wrapping": [false, "M", 5, 16, 10],
+  "01_issue_82282|Vulnerable|Checked": [true, null, 0, 0, 0],
+  "01_issue_82282|Fixed|Wrapping": [false, 0, 0, 0, 0],
+  "01_issue_82282|Fixed|Checked": [false, 0, 0, 0, 0],
+  "02_equal_benign|Vulnerable|Wrapping": [false, 0, 4, 0, 0],
+  "02_equal_benign|Fixed|Checked": [false, 0, 4, 0, 0],
+  "03_consumed_reuse|Vulnerable|Wrapping": [false, "M", 2, 0, 0],
+  "03_consumed_reuse|Vulnerable|Checked": [true, null, 2, 0, 0],
+  "03_consumed_reuse|Fixed|Wrapping": [false, 0, 2, 0, 0],
+  "04_next_back_after_side_effect|Vulnerable|Wrapping": [false, "M", 0, 0, 0],
+  "04_next_back_after_side_effect|Fixed|Wrapping": [false, 0, 0, 0, 0],
+  "05_nth_after_side_effect|Vulnerable|Wrapping": [false, "M-2", 0, 0, 0],
+  "05_nth_after_side_effect|Fixed|Wrapping": [false, 0, 0, 0, 0],
+  "06_consumed_reuse_twice|Vulnerable|Wrapping": [false, "M-2", 2, 0, 0],
+  "06_consumed_reuse_twice|Fixed|Checked": [false, 0, 2, 0, 0]
+}

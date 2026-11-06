@@ -1,0 +1,9 @@
+{
+  "name": "01_issue_82282",
+  "description": "test_issue_82282 from PR #82289: two consumed map(arr[3]).zip([(); 0]) zipped together; the test asserts size_hint (0, Some(0)) and no items.",
+  "kind": {
+    "kind": "issue82282",
+    "arr_len": 3,
+    "max_steps": 5
+  }
+}

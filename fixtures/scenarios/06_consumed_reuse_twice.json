@@ -1,0 +1,10 @@
+{
+  "name": "06_consumed_reuse_twice",
+  "description": "map(a[5]).zip(b[2]) drained, next() three more times (side-effect branch each time), then size_hint.",
+  "kind": {
+    "kind": "consumed_reuse",
+    "a_len": 5,
+    "b_len": 2,
+    "extra": 3
+  }
+}
